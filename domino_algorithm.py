@@ -12,11 +12,19 @@ class Domino:
 
     def print_pieces(self):
         for key, value in self.pieces.items():
-            print(f'[{key}] {value}\n')
-
+            print(f'[{key}] {value}')
+    
     def print_chain(self):
-        for key in self.chain():
+        for key in self.chain:
+            print("My Chain ==> ", end="")
+            print(f'{key}[{self.pieces[key][0]}|{self.pieces[key][1]}] ', end="")
+            print('\n')
+            print(10*"+=")
+
+    def find_piece(self):
+        if len(self.chain) == 0:
             return True, 0
+    
         for key, value in self.pieces.items():
             if key not in self.chain and match_pieces(self.pieces[self.chain[len(self.chain)-1]], value):
                 return True, key
@@ -27,12 +35,16 @@ class Domino:
         has_next_piece, next_piece = self.find_piece()
         if not has_next_piece:
             if len(self.chain) == len(self.pieces):
+                print("não tem mais o que fazer")
                 self.print_chain()
                 return
+            print("nao tem mais pecas compativeis, voltando")
             self.chain.pop()
             self.solve()
         else:
+            print("inserindo na chain")
             self.chain.append(next_piece)
+            print(f'Inserido: {self.chain}')
             self.solve()
 
 
@@ -46,5 +58,6 @@ d = Domino(pieces)
 d.print_pieces()
 
 print(f'#### Result')
+
 d.solve()
 print(d.chain)
