@@ -3,6 +3,8 @@
 
 import sys
 
+
+
 def match_pieces(p1, p2):
 	return p1[1] == p2[0]
 
@@ -13,11 +15,12 @@ def flip_piece(p):
 
 
 class Domino:
-	def __init__(self, pieces, number_of_pieces):
+	def __init__(self, pieces, number_of_pieces, DEBUG=False):
 		self.pieces = pieces
 		self.number_of_pieces = number_of_pieces
 		self.chain = list()
 		self.count = 0
+		self.DEBUG = DEBUG
 	
 	def print_pieces(self):
 		print("Pieces => ", end='')
@@ -30,6 +33,13 @@ class Domino:
 		for piece in self.chain:
 			print(f'[{piece[0]}|{piece[1]}] ', end='')
 		print()
+	
+	def report(self):
+		if self.DEBUG:
+			print(5*"+==+" + "REPORT" + 5*"+==+")
+			self.print_pieces()
+			self.print_chain()
+			print(10 * "+==+")
 	
 	def possibles_pieces(self, piece):
 		result = list()
@@ -47,6 +57,7 @@ class Domino:
 	
 	def solve(self):
 		self.count += 1
+		self.report()
 		possibles_pieces = list()
 		if len(self.chain) == 0:
 			has_pieces, possibles_pieces = self.possibles_pieces(tuple())
@@ -54,20 +65,31 @@ class Domino:
 		else:
 			has_pieces, possibles_pieces = self.possibles_pieces(self.chain[len(self.chain)-1])  # possiveis pecas para a ultima posicao
 			if not has_pieces:
-				p = self.chain.pop()
-				self.pieces.append(p)
-				return False
+				if len(self.pieces) > 0: # Cheguei num beco sem saida
+					return False
+				else:
+					return True
 		
 		for p in possibles_pieces:
 			self.chain.append(p)
+			
 			if p in self.pieces:
 				self.pieces.remove(p)
 			elif flip_piece(p) in self.pieces:
 				self.pieces.remove(flip_piece(p))
 			else:
 				raise ValueError("Piece could not be removed")
-			if self.solve():
-				break
+			
+			result = self.solve()
+			if result:
+				if self.DEBUG: print("breaking...")
+				return True
+			else:
+				p = self.chain.pop()
+				self.pieces.append(p)
+				if self.DEBUG: print(f'no pieces available for {p}')
+		
+		return False
 
 
 number_of_pieces = int(sys.argv[1])
@@ -78,12 +100,11 @@ for i in range(number_of_pieces):
 
 d = Domino(pieces, number_of_pieces)
 
-d.print_pieces()
-d.print_chain()
+#d.print_pieces()
+#d.print_chain()
 
-d.solve()
-print(f'#### Result')
-
+result = d.solve()
+print(f'#### Result => {result}')
 d.print_pieces()
 d.print_chain()
 print(d.count)
