@@ -1,8 +1,10 @@
-#test 0 6 4 2 3 4 8 1 1 7 4 7 2 8
-#test 1 8 1 4 2 3 4 1 7 4 7 2 8
+# 6 4 2 3 4 8 1 1 7 4 7 2 8 (ok)
+# 6 1 4 2 3 4 1 7 4 7 2 8 1 (sem combinacoes)
+# 11 2 2 10 9 3 10 4 2 3 4 8 1 1 7 4 7 2 8 3 3 2 2 (ok)
+# 10 2 2 10 9 3 10 4 2 3 4 8 1 1 7 4 7 2 8 3 3 (ok)
+# 18 6 2 5 5 6 7 7 0 5 2 10 7 8 1 10 9 9 6 6 4 5 10 9 2 8 6 8 8 8 2 9 5 0 4 1 2 (sem combinacoes)
 
 import sys
-
 
 
 def match_pieces(p1, p2):
@@ -19,7 +21,6 @@ class Domino:
 		self.pieces = pieces
 		self.number_of_pieces = number_of_pieces
 		self.chain = list()
-		self.count = 0
 		self.DEBUG = DEBUG
 	
 	def print_pieces(self):
@@ -56,7 +57,6 @@ class Domino:
 		return len(result) >= 1, result
 	
 	def solve(self):
-		self.count += 1
 		self.report()
 		possibles_pieces = list()
 		if len(self.chain) == 0:
@@ -100,11 +100,11 @@ for i in range(number_of_pieces):
 
 d = Domino(pieces, number_of_pieces)
 
-#d.print_pieces()
-#d.print_chain()
-
 result = d.solve()
-print(f'#### Result => {result}')
-d.print_pieces()
-d.print_chain()
-print(d.count)
+if result:
+	d.print_chain()
+else:
+	print("Sem combinações possíveis")
+	
+#print(f'#### Result => {result}')
+#d.print_pieces()
