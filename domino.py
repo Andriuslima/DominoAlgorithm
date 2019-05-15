@@ -91,12 +91,12 @@ class Domino:
 		
 		return False
 
-
-number_of_pieces = int(sys.argv[1])
+number_of_pieces = int(sys.stdin.readline())
 pieces = list()
 
 for i in range(number_of_pieces):
-	pieces.append((int(sys.argv[2 * i + 2]), int(sys.argv[2 * i + 3])))
+	piece = sys.stdin.readline().split()
+	pieces.append((int(piece[0]), int(piece[1])))
 
 d = Domino(pieces, number_of_pieces)
 
@@ -105,6 +105,3 @@ if result:
 	d.print_chain()
 else:
 	print("Sem combinações possíveis")
-	
-#print(f'#### Result => {result}')
-#d.print_pieces()
