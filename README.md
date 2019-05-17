@@ -2,7 +2,7 @@ Dominio Algorithm
 ===
 :beginner: Looks for if a chain of pieces of dominoes exists
 
-Implemented in python 3.7
+Compatible with python 3.4+
 
 #### Computer Science - PUCRS
 #### 2019/1

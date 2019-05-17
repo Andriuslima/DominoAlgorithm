@@ -1,4 +1,6 @@
+from __future__ import print_function
 import sys
+
 
 def match_pieces(p1, p2):
 	return p1[1] == p2[0]
@@ -19,13 +21,15 @@ class Domino:
 	def print_pieces(self):
 		print("Pieces => ", end='')
 		for piece in self.pieces:
-			print(f'[{piece[0]}|{piece[1]}] ', end='')
+			# print(f'[{piece[0]}|{piece[1]}] ', end='')
+			print(str(piece[0]) + '|' + str(piece[1]) + ' ', end='')
 		print()
 	
 	def print_chain(self):
 		print("Chain => ", end='')
 		for piece in self.chain:
-			print(f'[{piece[0]}|{piece[1]}] ', end='')
+			# print(f'[{piece[0]}|{piece[1]}] ', end='')
+			print(str(piece[0]) + '|' + str(piece[1]) + ' ', end='')
 		print()
 	
 	def report(self):
@@ -80,9 +84,11 @@ class Domino:
 			else:
 				p = self.chain.pop()
 				self.pieces.append(p)
-				if self.DEBUG: print(f'no pieces available for {p}')
+				# if self.DEBUG: print(f'no pieces available for {p}')
+				if self.DEBUG: print("no pieces available for " + str(p))
 		
 		return False
+
 
 number_of_pieces = int(sys.stdin.readline())
 pieces = list()
